@@ -7,7 +7,7 @@ include(realpath(dirname(__FILE__)) . '/../../../common/Pakiti.php');
 $pakiti = new Pakiti();
 $pkg = new Pkg();
 
-$pakiti->init();
+//$pakiti->init();
 
 $pkg->setName("test_pkg");
 $pkg->setRelease("release123");
