@@ -13,5 +13,5 @@ $pkg->setVersion("1.2.3");
 $pkgDao = new PkgDao($dbManager);
 
 $pkgDao->create($pkg);
-echo ('</br> done');
+echo "done";
 ?>
