@@ -1,8 +1,7 @@
 <?php
 include(realpath(dirname(__FILE__)) . '/../../../model/Pkg.php');
 include(realpath(dirname(__FILE__)) . '/../../../dao/PkgDao.php');
-include(realpath(dirname(__FILE__)) . '/../../../managers/DbManager.php');
-include(realpath(dirname(__FILE__)) . '/../../../common/Pakiti.php');
+require(realpath(dirname(__FILE__)) . '/../../../common/Loader.php');
 
 $pakiti = new Pakiti();
 $pkg = new Pkg();
@@ -12,6 +11,8 @@ $pkg = new Pkg();
 $pkg->setName("test_pkg");
 $pkg->setRelease("release123");
 $pkg->setVersion("1.2.3");
+
+$pakiti->getDao("PkgDao")-> create($pkg);
 
 //$pkgDao = new PkgDao($pakiti->getManager("DbManager"));
 
