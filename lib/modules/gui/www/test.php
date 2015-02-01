@@ -12,7 +12,7 @@ $pkg->setName("test_pkg");
 $pkg->setRelease("release123");
 $pkg->setVersion("1.2.3");
 
-$pakiti->getManager("DbManager")->dbConnect();
+//$pakiti->getManager("DbManager")->dbConnect();
 
 //$pkgDao = new PkgDao($pakiti->getManager("DbManager"));
 
