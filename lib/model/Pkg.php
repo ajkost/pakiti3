@@ -12,21 +12,37 @@ class Pkg {
 
   public function Pkg() {
   }
-  
-  public function getId() {
+
+  /**
+   * @return mixed
+   */
+  public function getId()
+  {
     return $this->_id;
   }
 
-  public function getName() {
+  /**
+   * @param mixed $id
+   */
+  public function setId($id)
+  {
+    $this->_id = $id;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getName()
+  {
     return $this->_name;
   }
 
-  public function setId($val) {
-    $this->_id = $val;
-  }
-
-  public function setName($val) {
-    $this->_name = $val;
+  /**
+   * @param mixed $name
+   */
+  public function setName($name)
+  {
+    $this->_name = $name;
   }
 
   /**
@@ -60,7 +76,6 @@ class Pkg {
   {
     $this->_release = $release;
   }
-
 
 }
 ?>

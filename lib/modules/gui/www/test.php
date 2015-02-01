@@ -14,7 +14,14 @@ $pkg->setVersion("1.2.3");
 
 $pakiti->getManager("DbManager")->begin();
 
-$pakiti->getDao("PkgDao")->create($pkg);
+//$pakiti->getDao("PkgDao")->create($pkg);
+
+$tag = new Tag();
+$tag -> setName("tagName");
+$tag -> setDescription("tagDescript");
+$pakiti -> getDao("Tag") -> create($tag);
+
+
 
 $pakiti->getManager("DbManager")->commit();
 //$pkgDao = new PkgDao($pakiti->getManager("DbManager"));
