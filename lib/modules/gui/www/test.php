@@ -4,7 +4,7 @@ include(realpath(dirname(__FILE__)) . '/../../../dao/PkgDao.php');
 include(realpath(dirname(__FILE__)) . '/../../../managers/DbManager.php');
 
 $pkg = new Pkg();
-//$dbManager = new DbManager();
+$dbManager = new DbManager();
 
 $pkg->setName("test_pkg");
 $pkg->setRelease("release123");
