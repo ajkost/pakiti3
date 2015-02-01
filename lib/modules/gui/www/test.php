@@ -13,7 +13,9 @@ $pkg->setRelease("release123");
 $pkg->setVersion("1.2.3");
 
 $pakiti->getManager("DbManager")->begin();
-$pakiti->getDao("PkgDao")->create($pkg);
+//$pakiti->getDao("PkgDao")->create($pkg);
+
+$pakiti->getManager("DbManager")->commit();
 //$pkgDao = new PkgDao($pakiti->getManager("DbManager"));
 
 //$pkgDao->create($pkg);
