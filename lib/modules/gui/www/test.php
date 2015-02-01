@@ -9,17 +9,17 @@ $pkg = new Pkg();
 //$pakiti->init();
 
 $pkg->setName("test_pkg");
-$pkg->setRelease("release123");
-$pkg->setVersion("1.2.3");
+//$pkg->setRelease("release123");
+//$pkg->setVersion("1.2.3");
 
 $pakiti->getManager("DbManager")->begin();
 
 //$pakiti->getDao("PkgDao")->create($pkg);
 
-$tag = new Tag();
-$tag -> setName("tagName");
-$tag -> setDescription("tagDescript");
-$pakiti -> getDao("Tag") -> create($tag);
+//$tag = new Tag();
+//$tag -> setName("tagName");
+//$tag -> setDescription("tagDescript");
+$pakiti -> getDao("Pkg") -> create($pkg);
 
 
 
