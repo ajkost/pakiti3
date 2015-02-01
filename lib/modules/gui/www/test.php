@@ -15,6 +15,6 @@ $pkg->setVersion("1.2.3");
 
 //$pkgDao = new PkgDao($pakiti->getManager("DbManager"));
 
-$pkgDao->create($pkg);
+//$pkgDao->create($pkg);
 echo "done";
 ?>
