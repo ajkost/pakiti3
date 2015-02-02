@@ -1,4 +1,7 @@
 <?php
+error_reporting( E_ALL );
+ini_set( "display_errors", 1 );
+
 include(realpath(dirname(__FILE__)) . '/../../../model/Pkg.php');
 include(realpath(dirname(__FILE__)) . '/../../../dao/PkgDao.php');
 require(realpath(dirname(__FILE__)) . '/../../../common/Loader.php');
