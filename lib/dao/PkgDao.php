@@ -46,7 +46,7 @@ class PkgDao {
         "insert into Pkg set
           name='".$this->db->escape($pkg->getName())."',
           version='".$this->db->escape($pkg->getVersion())."',
-          name='".$this->db->escape($pkg->getRelease())."',
+          release='".$this->db->escape($pkg->getRelease())."',
           ");
 
     # Set the newly assigned id
