@@ -12,7 +12,7 @@ $pkg = new Pkg();
 //$pakiti->init();
 
 $pkg->setName("test_pkg");
-$pkg->setRelease("release123");
+$pkg->setRelease("release_beta");
 $pkg->setVersion("1.2.3");
 
 $pakiti->getManager("DbManager")->begin();
