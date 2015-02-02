@@ -44,7 +44,9 @@ class PkgDao {
   public function create(Pkg &$pkg) {
     $this->db->query(
         "insert into Pkg set
-          name='pkg_123', version='1.2.3', rrelease='alpha'");
+          name='".$this->db->escape($pkg->getName())."',
+          version='".$this->db->escape($pkg->getVersion())."',
+          rrelease='".$this->db->escape($pkg->getRelease())."'");
 
     # Set the newly assigned id
     $pkg->setId($this->db->getLastInsertedId());
