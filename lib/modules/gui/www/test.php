@@ -10,13 +10,16 @@ $pakiti = new Pakiti();
 $pkg = new Pkg();
 
 $pkg->setName("test_pkga");
-$pkg->setRelease("release_beta_aaBB");
-$pkg->setVersion("1.2.3.4");
+$pkg->setRelease("release_beta_BB");
+$pkg->setVersion("1.1.3.3");
 
 $pakiti->getManager("DbManager")->begin();
 $pakiti -> getDao("Pkg") -> create($pkg);
 $pakiti->getManager("DbManager")->commit();
 
-echo $pkg->getId();
-echo "done";
+$id = $pkg->getId();
+$pkg2 = $pakiti -> getDao("Pkg") -> getById($id);
+echo $pkg2->getRelease();
+echo "</br>";
+echo $pakiti -> getDao("Pkg") -> getByName("test_pkga");
 ?>
