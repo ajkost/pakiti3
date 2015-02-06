@@ -11,7 +11,7 @@ $pkg = new Pkg();
 
 $pkg->setName("test_pkg2");
 $pkg->setRelease("release_BB");
-$pkg->setVersion("1.1");
+$pkg->setVersion("1.11");
 
 $pakiti->getManager("DbManager")->begin();
 $pakiti -> getDao("Pkg") -> create($pkg);

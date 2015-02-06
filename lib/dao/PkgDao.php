@@ -102,8 +102,7 @@ class PkgDao {
     $this->db->query(
       "update Pkg set
       	name='".$this->db->escape($pkg->getName())."',
-      	version='".$this->db->escape($pkg->getVersion())."',
-      	´release´='".$this->db->escape($pkg->getRelease())."'
+      	version='".$this->db->escape($pkg->getVersion())."'
       where id=".$this->db->escape($pkg->getId()));
   }
   
