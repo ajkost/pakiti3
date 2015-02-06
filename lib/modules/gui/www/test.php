@@ -9,7 +9,7 @@ require(realpath(dirname(__FILE__)) . '/../../../common/Loader.php');
 $pakiti = new Pakiti();
 $pkg = new Pkg();
 
-$pkg->setName("test_pkg");
+$pkg->setName("test_pkg2");
 $pkg->setRelease("release_BB");
 $pkg->setVersion("1.1");
 
@@ -19,6 +19,6 @@ $pakiti->getManager("DbManager")->commit();
 
 $id = $pkg->getId();
 $pkg2 = $pakiti -> getDao("Pkg") -> getById($id);
-$pkg2 -> setVersion("1.8.9.0");
+$pkg2 -> setVersion("1.8");
 $pakiti -> getDao("Pkg") -> update($pkg2);
 ?>
