@@ -10,7 +10,7 @@ $pakiti = new Pakiti();
 $pkg = new Pkg();
 
 $pkg->setName("test_pkga");
-$pkg->setRelease("release_beta_aa");
+$pkg->setRelease("release_beta_aaBB");
 $pkg->setVersion("1.2.3.4");
 
 $pakiti->getManager("DbManager")->begin();
