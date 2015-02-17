@@ -9,6 +9,7 @@ class Pkg {
   private $_name;
   private $_version;
   private $_release;
+  private $_arch;
 
   public function Pkg() {
   }
@@ -75,6 +76,22 @@ class Pkg {
   public function setRelease($release)
   {
     $this->_release = $release;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getArch()
+  {
+    return $this->_arch;
+  }
+
+  /**
+   * @param mixed $arch
+   */
+  public function setArch($arch)
+  {
+    $this->_arch = $arch;
   }
 
 }

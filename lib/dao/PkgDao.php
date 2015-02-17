@@ -46,12 +46,30 @@ class PkgDao {
         "insert into Pkg set
           name='".$this->db->escape($pkg->getName())."',
           version='".$this->db->escape($pkg->getVersion())."',
+          arch='".$this->db->escape($pkg->getArch())."',
           `release`='".$this->db->escape($pkg->getRelease())."'");
 
     # Set the newly assigned id
     $pkg->setId($this->db->getLastInsertedId());
   }
-  
+
+  /*
+   * Get the pkg by name, version, release and arch
+   */
+  public function getPkg($name, $version, $release, $arch) {
+    return $this->db->queryObject(
+        "select
+    		id as _id, name as _name, version as _version, arch as _arch, `release` as _release
+      from
+      	Pkg
+      where
+      	name='".$this->db->escape($name)."' AND
+        version='".$this->db->escape($version)."' AND
+        `release`='".$this->db->escape($release)."' AND
+        arch='".$this->db->escape($arch)."'"
+        , "Pkg");
+  }
+
   /*
    * Get the pkg by its ID
    */
@@ -59,42 +77,23 @@ class PkgDao {
     if (!is_numeric($id)) return null;
     return $this->getBy($id, "id");
   }
-  
+
   /*
-   * Get the pkg by its name
+   * Get the pkgs by their IDs
+   * $ids is array of IDs
+   * returns array of pkgs
    */
-  public function getByName($name) {
-    return $this->getBy($name, "name");
-  }
-  
-	/*
-	 * Get the pkg ID by its name
-	 */ 
-  public function getIdByName($name) {
-    $id = $this->db->queryToSingleValue(
-    	"select 
-    		id
-      from 
-      	Pkg 
+  public function getPkgsByPkgIds($ids) {
+    $arrayOfRows = $this->db->queryToMultiRow(
+        "select
+    		id as _id, name as _name, version as _version, arch as _arch, `release` as _release
+      from
+      	Pkg
       where
-      	name='".$this->db->escape($name)."'");
-    if ($id == null) {
-      return -1;
-    }
-    return $id;
+        id IN (" . implode(",", array_map("intval", $ids)) . ")");
+//todo
   }
-  
-  public function getPkgsIds($orderBy, $pageSize, $pageNum) {
-    $sql = "select id from Pkg order by name";
-    
-    if ($pageSize != -1 && $pageNum != -1) {
-      $offset = $pageSize*$pageNum;
-      $sql .= " limit $offset,$pageSize";
-    }
-    
-    return $this->db->queryToSingleValueMultiRow($sql);
-  }
-  
+
   /*
    * Update the pkg in the DB
    */
@@ -102,7 +101,8 @@ class PkgDao {
     $this->db->query(
       "update Pkg set
       	name='".$this->db->escape($pkg->getName())."',
-      	version='".$this->db->escape($pkg->getVersion())."'
+      	version='".$this->db->escape($pkg->getVersion())."',
+      	`release`='".$this->db->escape($pkg->getRelease())."'
       where id=".$this->db->escape($pkg->getId()));
   }
   
@@ -113,11 +113,11 @@ class PkgDao {
     $this->db->query(
       "delete from Pkg where id=".$this->db->escape($pkg->getId()));
   }
-  
+
   /*********************
    * Protected functins
    *********************/
-  
+
   /*
    * We can get the data by ID or name
    */
@@ -131,14 +131,14 @@ class PkgDao {
       throw new Exception("Undefined type of the getBy");
     }
     return $this->db->queryObject(
-    	"select 
+    	"select
     		id as _id, name as _name
-      from 
-      	Pkg 
+      from
+      	Pkg
       where
       	$where"
       , "Pkg");
   }
- 
+
 }
 ?>
