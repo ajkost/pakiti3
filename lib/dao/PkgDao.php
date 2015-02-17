@@ -84,14 +84,13 @@ class PkgDao {
    * returns array of pkgs
    */
   public function getPkgsByPkgIds($ids) {
-    $arrayOfRows = $this->db->queryToMultiRow(
+    return $this->db->queryToMultiRow(
         "select
     		id as _id, name as _name, version as _version, arch as _arch, `release` as _release
       from
       	Pkg
       where
         id IN (" . implode(",", array_map("intval", $ids)) . ")");
-//todo
   }
 
   /*
