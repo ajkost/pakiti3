@@ -44,23 +44,34 @@ class InstalledPkgDao {
   public function create(Pkg $pkg, Host $host) {
     $this->db->query(
       "insert into InstalledPkg set
-      	pkgId='".$this->db->escape($pkg->getId())."'
+      	packageId='".$this->db->escape($pkg->getId())."'
       	hostId='".$this->db->escape($host->getId())."'
 	");
   }
   
   /*
-   * Get the installedPkg by its pkgId, hostId and archId
+   * Get the installedPkg by its pkgId and hostId
    */
-  public function get(InstalledPkg &$installedPkg) {
+  public function get($hostId, $packageId) {
     return $this->db->queryObject("select 
-	pkgId, hostId, version, release, archId
+	packageId, hostId
       from 
-	InstalledPkg
-      where pkgId=".$this->db->escape($installedPkg->getPkgId())." and
-        hostId=".$this->db->escape($installedPkg->getHostId())." and
-        archId=".$this->db->escape($installedPkg->getArchId()), "InstalledPkg");
+	installedpkg
+      where packageId=".$this->db->escape($packageId)." and
+        hostId=".$this->db->escape($hostId), "InstalledPkg");
   }
+
+    /*
+     * Get the list of installedPkg Ids by hostId
+     */
+    public function getIdsByHostId($hostId) {
+        return $this->db->queryToMultiRow("select
+	packageId
+      from
+	installedpkg
+      where hostId=".$this->db->escape($hostId));
+    }
+
 
   /*
    * Gets all installed packages for defined host
@@ -153,12 +164,11 @@ class InstalledPkgDao {
   /*
    * Delete the installedPkg from the DB
    */
-  public function delete(InstalledPkg &$installedPkg) {
+  public function delete($hostId, $pkgId) {
     $this->db->query(
       "delete from InstalledPkg where
-	pkgId=".$this->db->escape($installedPkg->getPkgId())." and 
-	hostId=".$this->db->escape($installedPkg->getHostId())." and 
-	archId=".$this->db->escape($installedPkg->getArchId()));
+	packageId=".$this->db->escape($pkgId)." and
+	hostId=".$this->db->escape($hostId));
   }
 }
 ?>

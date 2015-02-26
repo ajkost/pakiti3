@@ -27,11 +27,14 @@ $pakiti->getManager("DbManager")->begin();
 //echo $pkg2->getId();
 //$id = 5;
 //$host1 =& $pakiti->getDao("Host")->getById($id);
-$ids = array("40", "42");
-$array_of_pkgs = $pakiti -> getDao("Pkg") -> getPkgsByPkgIds($ids);
+//$ids = array("40", "42");
+//$array_of_pkgs = $pakiti -> getDao("Pkg") -> getPkgsByPkgIds($ids);
 //$pakiti -> getDao("InstalledPkg") -> create($pkg1, $host1);
 
 //change
-echo $array_of_pkgs;
+//echo $array_of_pkgs;
+$id = 5;
+echo $pakiti -> getDao("InstalledPkg") -> getIdsByHostId($id);
+
 echo "done";
 ?>
