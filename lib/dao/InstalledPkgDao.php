@@ -41,14 +41,11 @@ class InstalledPkgDao {
   /*
    * Stores the installedPkg in the DB
    */
-  public function create(InstalledPkg &$installedPkg) {
+  public function create(Pkg $pkg, Host $host) {
     $this->db->query(
       "insert into InstalledPkg set
-      	pkgId='".$this->db->escape($installedPkg->getPkgId())."'
-      	hostId='".$this->db->escape($installedPkg->getHostId())."'
-      	version='".$this->db->escape($installedPkg->getVersion())."'
-      	release='".$this->db->escape($installedPkg->getRelease())."'
-      	archId='".$this->db->escape($installedPkg->getArchId())."'
+      	pkgId='".$this->db->escape($pkg->getId())."'
+      	hostId='".$this->db->escape($host->getId())."'
 	");
   }
   

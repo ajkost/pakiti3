@@ -33,7 +33,7 @@ final class DbManager {
   function __construct() {
     $this->dbConnect();
   }
-  
+
   /*
    * Transaction methods
    */
@@ -51,7 +51,7 @@ final class DbManager {
     }
     Utils::log(LOG_DEBUG, "Commiting transaction", __FILE__, __LINE__);
   }
-  
+
   public function rollback() {
     if (!$res = $this->_dbLink->query("rollback")) {
       Utils::log(LOG_DEBUG, "Exception", __FILE__, __LINE__);
@@ -59,12 +59,12 @@ final class DbManager {
     }
     Utils::log(LOG_DEBUG, "Transaction rollback!", __FILE__, __LINE__);
   }
-    
+
   /*
    * Escape SQL parameters
    */
   public function escape($string) {
-	return $this->_dbLink->real_escape_string($string);
+    return $this->_dbLink->real_escape_string($string);
   }
 
   /*
@@ -73,7 +73,7 @@ final class DbManager {
   public function query($sql) {
     $this->rawQuery($sql);
   }
-  
+
   /*
    * Returns single value
    */
@@ -85,7 +85,7 @@ final class DbManager {
     }
     return $row[0];
   }
-  
+
   /*
    * Returns single row
    */
@@ -93,7 +93,7 @@ final class DbManager {
     $res = $this->rawQuery($sql);
     return $this->rawSingleRowFetch($res);
   }
-  
+
   /* 
    * Returns single object
    */
@@ -101,31 +101,38 @@ final class DbManager {
     $res = $this->rawQuery($sql);
     return $this->rawSingleObjectFetch($res, $class, $params);
   }
-  
+
+  /* 
+   * Returns multiple objects
+   */
+  public function queryObjects($sql, $class, $params = null) {
+    $res = $this->rawQuery($sql);
+    return $this->rawMultiObjectFetch($res, $class, $params);
+  }
   public function queryToMultiRow($sql) {
     $res = $this->rawQuery($sql);
     return $this->rawMultiRowFetch($res);
   }
-  
+
   public function queryToSingleValueMultiRow($sql) {
-    $res = $this->rawQuery($sql); 
+    $res = $this->rawQuery($sql);
     return $this->rawSingleValueMultiRowFetch($res);
   }
-  
+
   /*
    * Get last inserted id
    */
   public function getLastInsertedId() {
     return $this->_dbLink->insert_id;
   }
-  
+
   /*
    * Get the number of affected rows
    */
   public function getNumberOfAffectedRows() {
     return $this->_dbLink->affected_rows;
   }
-  
+
   /*************************************
    * Protected methods
    *************************************/
@@ -135,17 +142,17 @@ final class DbManager {
     if ($this->_dbLink->connect_errno != 0) {
       Utils::log(LOG_DEBUG, "Exception", __FILE__, __LINE__);
       throw new Exception("Cannot establish connection with the database [host=" . Config::$DB_HOST . ",user=" . Config::$DB_USER . "], error: " . mysqli_connect_error());
-    }  
-    
+    }
+
     # Select the DB
     if (!$this->_dbLink->select_db(Config::$DB_NAME)) {
       Utils::log(LOG_DEBUG, "Exception", __FILE__, __LINE__);
-      throw new Exception("Cannot select database [database=" . Config::$DB_NAME . "], probably database hasn't been initialized yet, run bin/initDB.php, error: " . $this->_dbLink->error);  
+      throw new Exception("Cannot select database [database=" . Config::$DB_NAME . "], probably database hasn't been initialized yet, run bin/initDB.php, error: " . $this->_dbLink->error);
     }
     Utils::log(LOG_DEBUG, "Successfully conected to the database [dbName=".Config::$DB_NAME.",dbHost=".Config::$DB_HOST.",dbUser=".Config::$DB_USER."]",
-      __FILE__, __LINE__);
+        __FILE__, __LINE__);
   }
-  
+
   /*
    * Raw query to the SQL, just check if the query finished successfuly and return the result
    */
@@ -155,10 +162,10 @@ final class DbManager {
       Utils::log(LOG_DEBUG, "Exception", __FILE__, __LINE__);
       throw new Exception("SQL query failed: " . $this->_dbLink->error);
     }
-    
+
     return $res;
   }
-  
+
   /*
    * Single raw row fetch, just check if there are some results
    */
@@ -168,60 +175,77 @@ final class DbManager {
     }
     return $row;
   }
-  
-	/*
-   * Multi raw row fetch, just check if there are some results
-   */
+
+  /*
+ * Multi raw row fetch, just check if there are some results
+ */
   protected function rawMultiRowFetch($res) {
     $ret = array();
     while (($row = $res->fetch_assoc()) != null) {
       array_push($ret, $row);
     }
-    
+
     if (sizeof($ret) > 0) {
       # Free the resources
       mysqli_free_result($res);
-    
+
       return $ret;
     } else {
       return null;
     }
   }
-  
-/*
-   * Multi raw row fetch for single column, just check if there are some results
-   */
+
+  /*
+     * Multi raw row fetch for single column, just check if there are some results
+     */
   protected function rawSingleValueMultiRowFetch($res) {
     $ret = array();
     while (($row = $res->fetch_row()) != null) {
       array_push($ret, $row[0]);
     }
-    
+
     if (sizeof($ret) > 0) {
       # Free the resources
       mysqli_free_result($res);
-    
+
       return $ret;
     } else {
       return null;
     }
   }
-  
-	/*
-   * Single raw object fetch, just check if the fetch was successfull and return the result
-   */
+
+  /*
+ * Single raw object fetch, just check if the fetch was successfull and return the result
+ */
   protected function rawSingleObjectFetch($res, $class, $params) {
     if ($params != null) {
       if (($row = $res->fetch_object($class, $params)) == null) {
         return null;
       }
     } else {
-    if (($row = $res->fetch_object($class)) == null) {
+      if (($row = $res->fetch_object($class)) == null) {
         return null;
       }
     }
     return $row;
   }
-  
+
+  /*
+   * Multiple raw object fetch, just check if the fetch was successfull and return the result
+   */
+  protected function rawMultiObjectFetch($res, $class, $params) {
+    $ret = array();
+    if ($params != null) {
+      while ($row = $res->fetch_object($class, $params)) {
+        array_push($ret, $row);
+      }
+    } else {
+      while ($row = $res->fetch_object($class)) {
+        array_push($ret, $row);
+      }
+    }
+    return $ret;
+  }
+
 }
 ?>

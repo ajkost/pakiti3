@@ -16,17 +16,22 @@ $pkg->setArch("x64");
 
 $pakiti->getManager("DbManager")->begin();
 //$pkg2 = $pakiti -> getDao("Pkg") -> getPkg("test1_pkg2","11.11","release1_BB","x64");
-$ids = array(40,42);
-$arr=$pakiti -> getDao("Pkg") -> getPkgsByPkgIds($ids);
+//$ids = array(40,42);
+//$arr=$pakiti -> getDao("Pkg") -> getPkgsByPkgIds($ids);
 //$pakiti->getManager("DbManager")->commit();
 
+//$arr = array($pkg,$pkg);
 //$ar = $pakiti->getManager("DbManager")->queryToMultiRow("select id as _id, name as _name, version as _version, arch as _arch, `release` as _release      from `pkg`");
-print_r(array_values($arr));
-
-
+//print_r(array_values($arr));
 
 //echo $pkg2->getId();
+//$id = 5;
+//$host1 =& $pakiti->getDao("Host")->getById($id);
+$ids = array("40", "42");
+$array_of_pkgs = $pakiti -> getDao("Pkg") -> getPkgsByPkgIds($ids);
+//$pakiti -> getDao("InstalledPkg") -> create($pkg1, $host1);
 
-
+//change
+echo $array_of_pkgs;
 echo "done";
 ?>
